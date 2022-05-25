@@ -19,7 +19,6 @@ content: ‘文字列’;
 content: url(画像URL);
 
 * ちなみにimgタグには疑似要素は作れない
-
 * デフォルトでインライン要素なので幅、高さなどの指定の際にはdisplay:blockが必要
 
 ## リンクの下線
@@ -101,31 +100,26 @@ HTMLに直接パスが打ち込まれたSVGはfill属性で塗りつぶしの色
 * stroke-width→線の幅
 
 ## Inputなどの初期値(placeholder)にCSSを当てる方法 
+```
 セレクタ::placeholder {
-    
     〜
-
 }
-
+```
 ## border-box
 HTMLだけに指定しておくといくつかの要素で適用されていない場合があるので*での指定推奨
 
 html *などで全体に適用させても疑似要素には適用されていないので注意
 
+```
 html {
-
     box-sizing: border-box;
-
 }
-
 *,
 *:before,
 *:after {
-    
     box-sizing: inherit;
-
 }
-
+```
 とするのがお勧めらしい
 https://jajaaan.co.jp/web-production/frontend/box-sizing/
 
@@ -140,31 +134,25 @@ https://jajaaan.co.jp/web-production/frontend/box-sizing/
 自動的に継承して適用されるフォントサイズ。
 
 ## CSSだけでカウントする方法 
-例）
-
-body {
-    
+```
+body { 
     counter-reset: 変数名;
-
 }
-
-セレクタ::before {
-    
+セレクタ::before {   
     counter-increment: 変数名; 
     content: counter(変数名);
 }
-
+```
 ## フレックスボックスの均等配置で左詰めする方法
-* 3列想定のデザインで２列しかないと左右に配置されてしまう件対応
-
+3列想定のデザインで２列しかないと左右に配置されてしまう件対応
+```
 セレクタ::after {
-
     content: "";
     width: 32%;  /* .boxに指定したwidthと同じ幅を指定する */
     height: 0;
 }
-
-* 同じ理屈でbeforeも使えば、４列までは可能
+```
+同じ理屈でbeforeも使えば、４列までは可能
 
 ## position: stickyについて
 親要素どころか祖先要素にoverflow:hiddenが指定されていると機能しなくなる
@@ -174,8 +162,10 @@ body {
 top指定が必要でその座標にくっ付いたように振る舞う
 
 ## Mix-blend-modeについて
-    background: white;
-    mix-blend-mode: difference;
+```
+background: white;
+mix-blend-mode: difference;
+```
 でネガポジ反転ができる。
 
 他にも下記のようなものもある

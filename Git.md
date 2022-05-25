@@ -6,11 +6,13 @@
 
 ## 共有する準備
 ### 1.追加
-    git add [ファイル名]
-
+```
+git add [ファイル名]
+```
 ### 2.コミット
-    git commit -m “[コミットメッセージ]”
-
+```
+git commit -m “[コミットメッセージ]”
+```
 ## Gitでの共有
 リモートリポジトリという共有ファイル置き場を使う
 ここにファイルをアップロードしたり、ダウンロードしたりすることでファイルを共有する
@@ -20,35 +22,36 @@
 * URLが必要
 * リモートの登録する際には名前が必要
 * 一般的には「origin」
-
-    git remote add [リモートリポジトリ名] URL
-
+```
+git remote add [リモートリポジトリ名] URL
+```
 ### アップロード（プッシュ）
-    git push [リモートリポジトリ名] master
-
+```
+git push [リモートリポジトリ名] master
+```
 ### ダウンロード（プル）
-    git pull [リモートリポジトリ名] master
-
+```
+git pull [リモートリポジトリ名] master
+```
 ## 変更したファイルの確認
 ### git status
 変更したファイルが以下のような形で赤色で表示される
-
-    modified:   index.html
-    modified:   stylesheet.css
-
+```
+modified:   index.html
+modified:   stylesheet.css
+```
 * また、addしたファイルは緑色で表示される
-
 ### git diff
 追加された部分が緑と＋で、削除された部分が赤と−で表示される
-
-    -    <p>Progateはオンラインでプログラミングが学べるサービスです。</p>
-    +    <p class="subtitle">Progateはオンラインでプログラミングが学べるサービスです。</p>
-
+```
+- <p>Progateはオンラインでプログラミングが学べるサービスです。</p>
++ <p class="subtitle">Progateはオンラインでプログラミングが学べるサービスです。</p>
+```
 ### git log
 コミットメッセージを確認できる
-
-    git log -p
-
+```
+git log -p
+```
 変更箇所も確認できる
 
 なお、ログの表示中は上下キーでカーソルの移動、Qキーで終了となる
