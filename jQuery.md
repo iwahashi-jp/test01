@@ -1,21 +1,22 @@
 # jQuery/javascript
 ## jQueryの読み込み順
-
-    $(function() {
-        console.log('ready');
-        $(window).on('load', function() {
-            console.log('load');
-        });
-    });
-    console.log('outside ready');
+```
+$(function() {
+    console.log('ready');
     $(window).on('load', function() {
-        console.log('outside load');
+        console.log('load');
     });
-
+});
+console.log('outside ready');
+$(window).on('load', function() {
+    console.log('outside load');
+});
+```
 jQuery3では「outside ready → outside load → ready」の順番、
+
 jQuery2では「outside ready → ready → outside load → load」の順番でconsoleが表示されました。
 
-また、$(function)が非同期になったことで、$(function)内に$(window).on(‘load’, function);が入っていると実行されなくなっているようです。
+また、```$(function)```が非同期になったことで、```$(function)```内に```$(window).on(‘load’, function);```が入っていると実行されなくなっているようです。
 
 詳しくは
 https://cly7796.net/blog/javascript/started-with-jquery3/
@@ -33,12 +34,12 @@ https://cly7796.net/blog/javascript/started-with-jquery3/
 
 ## webStorage
 クッキーとは別のWebクライアントにデータを保存する仕組み
-
-    var webStore = function () {
-         ~ 
-    };
-    webStorage();
-
+```
+var webStore = function () {
+     ~ 
+};
+webStorage();
+```
 localStorageとsessionStorageの二種類がある
 
 使用例
