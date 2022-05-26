@@ -120,6 +120,7 @@ html {
 }
 ```
 とするのがお勧めらしい
+
 https://jajaaan.co.jp/web-production/frontend/box-sizing/
 
 ## フォントサイズ
@@ -193,4 +194,5 @@ https://dezanari.com/css-position-fixed-not-work/
 その原則を踏まえた上で、さらに細かく条件づけしたいときに、「p:nth-child(3)」 ( = ３番目の要素で、なおかつpタグのとき)のような形をとります。
 
 「３番目にでてくるpタグ」ではありません。それは「p:nth-of-type(3)」です。
+
 https://learning.mihune-web.com/nth-child/
