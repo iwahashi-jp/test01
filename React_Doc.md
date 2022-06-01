@@ -111,7 +111,7 @@ this.setState({プロパティ:変更する値})
 this.state = {プロパティ:値};
 this.state.プロパティ = 値;
 ```
-###　クラスの定義
+###　クラスの定義(ES6)
 ```
 class クラス名 {
     constructor(){
@@ -131,12 +131,12 @@ import App from './components/App';
 ReactDOM.render(<App />,document.getElementById('root'));
 
 ```
-## コンポーネント
+## コンポーネント(ES6)
 部品やパーツという意味で見た目を機能ごとにコンポーネント化して、組み合わせることでWebサイトの見た目を作ります。
 ```
 export default クラス名;
 ```
-### インポート
+### インポート(ES6)
 ```
 import クラス名 from './ファイル名';
 ```
