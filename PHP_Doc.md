@@ -14,6 +14,10 @@ https://wpdocs.osdn.jp/%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E9
 ## contact form 7
 [response]→応答メッセージボックスを好きな位置に設置する
 
+## bogo
+多言語サイトを作るのに便利なプラグイン
+メニューやカテゴリーなども多言語化できる
+
 ## URLetcの取得 
 ```
 get_template_directory_uri();
