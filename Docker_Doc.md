@@ -42,6 +42,10 @@ https://atsblog.org/docker-gui-ubuntu/
 下記サイトを参考にdocker-compose.ymlを修正する
 * https://zenn.dev/marumarumeruru/articles/55173a98863d4e
 * https://qiita.com/sayama0402/items/0f77861e059b38ea547a
+
+同一イメージで複数コンテナを動かす方法→これにより複数のWordpressサイトを同時に開発できる、はず
+* https://teratail.com/questions/312380?sort=3
+* container_name:とports:が被らなければ出来る模様
 ### wordpressのインストール先
 /var/www/html
 ## まとめ
