@@ -1,66 +1,75 @@
 # Dockerの調査 メモ
-## インストールについて
-Pythonの書籍をやるにあたってメモを取る前にDocker,DockerDesktopなどをインストールしてしまっていた為、Dockerのインストール周りは割愛
-* Dockerはターミナルから、DesktopはWebサイトからダウンロード・インストール出来たはず
 ## 注意事項
-+ コンテナのOSにはLinuxしか利用できない
-+ M1Macのプラットフォームはarm64、mysqlなどの多くはamd64をサポート。この違いで泣かされたので結構、重要
-## Docker Hub
-あらかじめよく使われる便利なイメージが登録されています。
-ここからイメージを取得して、それをベースに改造する形を取るのが一般的な利用方法になります。
-取得可能なイメージは Explore Official Repositories で検索できます。
-## VSCode の拡張機能でリモートでコーティングできる
-+ メモをし損ねて肝心の拡張機能名が分からない
-+ ただしローカルで出来ることができなかったりする
-（ファイル、フォルダの新規作成など）
-## Docker Desktopについて
-+ ~~Macだとアプリを再起動しようとしても出来ない~~
-~~（プロセスが残っておりアクティブモニターなどでそれを停止させる必要がある）~~
+* コンテナのOSにはLinuxしか利用できない
+* M1MacのCPUアーキテクチャはarm64、mysqlなどはamd64をサポート。これを意識していないと上手く動作しない。
+* Docker Desktopは商用利用に制限あり
+## Docker Desktop のインストール方法
+* https://matsuand.github.io/docs.docker.jp.onthefly/desktop/mac/install/
 
-勘違いでした。右上のクジラアイコンからきちんと終了できる。
-## linuxの管理者権限を一時的に付与する
+M1MacはAppleチップのMacなのでそちらをインストールする
+## Docker Hub
+様々なイメージがあり、ここから取得して環境を整えるのが一般的
+
+取得可能なイメージは Explore Official Repositories で検索できる
+## VSCode の拡張機能でリモートでコーティングできる
++ ただしローカルで出来ることができなかったりするので利便性は低い（ファイル、フォルダの新規作成など）
+## Linuxのコマンド
+### 管理者権限を一時的に付与する
 ```
 sudo [コマンド]
 ```
-## コマンドラインで十字キーやTabキーが使えない
+### コマンドラインで十字キーやTabキーが使えない
 シェルをbashに切り替える
 ```
 bash
 ```
-## wordpressのインストールまでの道のり
-### ~~XAMPPのインストール~~
+## Wordpressのインストールまでの道のり
+### 1. ~~ubuntuのイメージを使ってXAMPPをインストール~~
 https://style.potepan.com/articles/19086.html
-### ~~続いてWordpressのインストール（GUIインターフェースが必要だったので行き詰まり）~~
+### 2. ~~続いてWordpressのインストール（GUIインターフェースが必要だったので行き詰まり）~~
 https://webkaru.net/linux/wordpress-install-centos/
-### ~~→DockerはGUIインターフェースが使えるのか~~
+### 2.1. ~~→DockerはGUIインターフェースが使えるのか~~
 https://atsblog.org/docker-gui-ubuntu/
 ブラウザ経由でGUIを操作するので操作性が悪い
-### ~~→CUIでwordpressはインストールできるのか~~
+### 2.2. ~~→CUIでwordpressはインストールできるのか~~
 + ~~WP-CLIなるものがあるらしい→Wordpressインストール後、ブラウザを使わずにプラグインなどをインストールするアプリケーションのようなので放置~~
-### 『結論』Wordpressのコンテナイメージを使う
-ほぼ手順通り
+### 3. 『結論』 Wordpressのイメージを使う(CPUアーキテクチャの絡みで失敗していたので後回しになっていた)
+下記サイトの手順通り(プロジェクトの構築を実行する前に3.1.のdocker-compose.ymlを修正すること)
 * https://docs.docker.jp/compose/wordpress.html
-
-下記サイトを参考にdocker-compose.ymlを修正する
-* https://zenn.dev/marumarumeruru/articles/55173a98863d4e
-* https://qiita.com/sayama0402/items/0f77861e059b38ea547a
-
-同一イメージで複数コンテナを動かす方法→これにより複数のWordpressサイトを同時に開発できる、はず
-* https://teratail.com/questions/312380?sort=3
-* container_name:とports:が被らなければ出来る模様
-### wordpressのインストール先
+### 3.1. docker-compose.ymlを修正する
+### 3.1.1. CPUアーキテクチャの変更
+db:の項目に下記を追加する
+```
+platform: linux/amd64
+```
+[参考サイト]https://zenn.dev/marumarumeruru/articles/55173a98863d4e
+### 3.1.2. バインドマウントの方法（ホストコンテナ間のファイル共有設定）
+例)wordpress:の項目に下記を追加する
+```
+volumes:
+    - ./themes:/var/www/html/wp-content/themes
+```
+[参考サイト]https://qiita.com/sayama0402/items/0f77861e059b38ea547a
+### 3.1.3. 同一イメージで複数コンテナを動かす方法（複数のWordpressサイトを同時に開発できる）
+db:とwordpress:の項目に下記を追加し、wordpress:の項目にあるports:を被らないように変更する
+```
+container_name: "[固有の名前]"
+```
+[参考サイト]https://teratail.com/questions/312380?sort=3
+### Linux版Wordpressのインストール先
+```
 /var/www/html
+```
 ## まとめ
 ### メリットなど
-* 今使っているPCの中身を汚さず開発出来る
+* CPUアーキテクチャに左右されない環境構築が出来る（PythonでCPU問題にぶつかりまくったので個人的に大きい）
+* 今使っているPCのHDDを汚さず開発出来る（Pythonでかなり汚してしまっているので個人的に大きい）
 * 使いたいコンテナがDocker Hubにあれば開発環境を整えるのが早い
 * (試してないが)Dockerさえ入っていれば開発環境を本番環境などに移行できる
 * 動作自体は軽そう
 * バインドマウントを使えばホスト⇄コンテナ間のファイル共有が出来る、もとい、使わないとかなり開発しづらいと思われる
-
-バインドマウントについてこちらを参考　→　https://qiita.com/sayama0402/items/0f77861e059b38ea547a
 ### デメリット
-* GUIが使えない(使えるコンテナもあったがGUIに特化した環境構築がされている為、その他諸々インストールする羽目になり手間が増える)
+* GUIが使えない(使えるイメージもあったがGUIに特化した環境構築がされている為、その他諸々インストールする羽目になり手間が増える)
 * OSがLinux限定、コマンドラインに慣れる必要がある
 * Dockerの知識が必要
-* (推測)ローカルでは気にならないが本番を想定した場合、アクセスが集中した際のレスポンスは落ちるのではないかと思われる。
+* (推測)ローカルでは気にならないが本番を想定した場合、アクセスが集中した際などのレスポンスは落ちるのではないかと思われる。
