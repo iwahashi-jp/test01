@@ -73,3 +73,68 @@ container_name: "[固有の名前]"
 * OSがLinux限定、コマンドラインに慣れる必要がある
 * Dockerの知識が必要
 * (推測)ローカルでは気にならないが本番を想定した場合、アクセスが集中した際などのレスポンスは落ちるのではないかと思われる。
+# Dockerでディープラーニングの学習環境を構築してみる
+## jupyter lab 用のイメージをディープラーニング環境にしていく
+https://kagakucafe.com/2022053118742.html
+### rootパスワードが分からない為、sudoコマンドが使えない
+Dockerの外からユーザー指定でLinuxコマンドが使えるコマンドがある
+```
+docker exec -it --user [ユーザ名] [コンテナID] [コマンド] [コマンドのオプション]
+```
+#### コンテナIDの調べ方
+```
+docker container ls
+```
+### MeCabのインストール
+ホスト側
+```
+docker exec -it --user root e8abf469e18c apt update
+docker exec -it --user root e8abf469e18c apt install mecab
+docker exec -it --user root e8abf469e18c apt install libmecab-dev
+docker exec -it --user root e8abf469e18c apt install mecab-ipadic-utf8
+```
+コンテナ側
+```
+git clone https://github.com/neologd/mecab-ipadic-neologd.git
+```
+上記gitコマンドが終了次第、ホスト側に戻って
+```
+docker exec -it --user root e8abf469e18c apt install git make curl xz-utils file
+docker exec -it --user root e8abf469e18c /home/jovyan/mecab-ipadic-neologd/bin/install-mecab-ipadic-neologd -n -p /var/lib/mecab/dic/mecab-ipadic-neologd
+```
+* mecab-python3は後にインストールする
+### pythonのバージョンが高い為、tensorflow　1系がインストール出来ない
+[参考サイト]https://teratail.com/questions/282134
+#### anacondaの仮想環境を使う
+[参考サイト]https://qiita.com/aical/items/5d632a7ee4a3233bb8fc
+
+コンテナ側で
+```
+conda create -n test python=3.5
+conda activate test
+pip install --upgrade tensorflow==1.5.0
+* import時に警告が出るが動く
+pip install --upgrade keras==2.1.4
+pip install scikit-learn
+pip install pandas
+pip install matplotlib
+pip install gensim
+pip install mecab-python3
+※ インストール中に盛大にエラーメッセージが出てるが Successfully installed とあるし、動作に問題はないっぽいので成功してる(と思う)
+pip install opencv-python
+```
+あらかたインストールが終わったら念の為、コンテナを再起動
+#### anacondaの仮想環境をjupyter labのカーネルに登録する
+[参考サイト]https://sakizo-blog.com/13/
+```
+pip install ipykernel
+python -m ipykernel install --user --name=test
+```
+### 教本のChap4のmarkov.pyが動かない
+[参考サイト]https://github.com/SamuraiT/mecab-python3
+```
+    # markov.pv
+    tagger = MeCab.Tagger("-d /var/lib/mecab/dic/mecab-ipadic-neologd")
+    ↓ に変更
+    tagger = MeCab.Tagger("-r /dev/null -d /var/lib/mecab/dic/mecab-ipadic-neologd")
+```
