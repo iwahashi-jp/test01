@@ -74,7 +74,19 @@ container_name: "[固有の名前]"
 * Dockerの知識が必要
 * (推測)ローカルでは気にならないが本番を想定した場合、アクセスが集中した際などのレスポンスは落ちるのではないかと思われる。
 # Dockerで書籍『PythonによるAI・機械学習・深層学習アプリの作り方』で使える環境構築をしてみる
-## **Dockerイメージがサンプルのunsupportedに付属されていたのでこれを行う必要なはないかも？**
+## 書籍のサンプルから環境構築する
+[参考サイト]https://github.com/kujirahand/book-mlearn-gyomu
+```
+VScodeのリモート機能などでコンテナ上にファイル配置を行った上で実行していく
+cd /src/vagrant
+* シェルを実行する前にpip3 install mecab-python3==1.0.5 \ に変更しておく
+bash docker-install.sh
+* mkdir -p ~/.config/matplotlib && \以下が実行されない？ようなので手動で実行していく
+* jupyter labの起動は
+jupyter lab --ip=0.0.0.0 --no-browser
+
+```
+### **どこまでできるのか未確認**
 ## jupyter lab 用のイメージを使う
 https://kagakucafe.com/2022053118742.html
 ### rootパスワードが分からない為、sudoコマンドが使えない
@@ -133,6 +145,7 @@ pip install ipykernel
 python -m ipykernel install --user --name=test
 ```
 # 書籍:PythonによるAI･機械学習•深層学習アプリのつくり方で行き詰まった所や誤植、Colaboratoryで行う場合の修正箇所など
+## ここに記載している内容はサンプルコードでは修正されているケースもある為、書籍よりサンプルコードを見た方が良いと思われる
 ## p.146-148
 ```
 from sklearn.externals import joblib
@@ -196,4 +209,15 @@ val_accも同様
     tagger = MeCab.Tagger("-d /var/lib/mecab/dic/mecab-ipadic-neologd")
     ↓ に変更
     tagger = MeCab.Tagger("-r /dev/null -d /var/lib/mecab/dic/mecab-ipadic-neologd")
+```
+## ColaboratoryでMeCabインストール
+```
+!apt install aptitude
+!aptitude install mecab libmecab-dev mecab-ipadic-utf8 git make curl xz-utils file -y
+!pip install mecab-python3==0.7
+```
+## Colaboratoryで解凍
+zipファイルをアップロードして解凍することでフォルダと下位ファイルの展開に使った
+```
+!unzip [ファイル名]
 ```
