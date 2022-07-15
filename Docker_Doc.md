@@ -87,8 +87,15 @@ jupyter lab --ip=0.0.0.0 --no-browser
 
 ```
 ### **どこまでできるのか未確認**
+## 書籍のサンプルにあるDockerファイルを使用する
+### バージョン関係でエラーを吐いている箇所が多すぎるため断念
 ## jupyter lab 用のイメージを使う
 https://kagakucafe.com/2022053118742.html
+### **flaskによるWebサーバを想定していなかった為、6-4が実行できない**
+もしやるなら、
+* https://qiita.com/suzuki_sh/items/6bc15446965df20b6c5a
+* https://qiita.com/prgseek/items/e557a371d7bd1f57b9b1
+などが参考になるかも
 ### rootパスワードが分からない為、sudoコマンドが使えない
 Dockerの外からユーザー指定でLinuxコマンドが使えるコマンドがある
 ```
