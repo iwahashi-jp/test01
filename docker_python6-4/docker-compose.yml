@@ -1,0 +1,10 @@
+version: '3.4'
+services:
+  web:
+    build: .
+    platform: linux/amd64
+    volumes:
+      - ./work:/work
+    ports:
+      - 127.0.0.1:5000:5000
+      
