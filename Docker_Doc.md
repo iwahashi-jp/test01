@@ -10,19 +10,7 @@ M1MacはAppleチップのMacなのでそちらをインストールする
 ## Docker Hub
 様々なイメージがあり、ここから取得して環境を整えるのが一般的
 
-取得可能なイメージは Explore Official Repositories で検索できる
-## VSCode の拡張機能でリモートでコーティングできる
-+ ただしローカルで出来ることができなかったりするので利便性は低い（ファイル、フォルダの新規作成など）
-## Linuxのコマンド
-### 管理者権限を一時的に付与する
-```
-sudo [コマンド]
-```
-### コマンドラインで十字キーやTabキーが使えない
-シェルをbashに切り替える
-```
-bash
-```
+取得可能なイメージは Explore Official Repositories などで検索できる
 ## Wordpressのインストールまでの道のり
 ### 1. ~~ubuntuのイメージを使ってXAMPPをインストール~~
 https://style.potepan.com/articles/19086.html
@@ -71,8 +59,7 @@ container_name: "[固有の名前]"
 ### デメリット
 * GUIが使えない(使えるイメージもあったがGUIに特化した環境構築がされている為、その他諸々インストールする羽目になり手間が増える)
 * OSがLinux限定、コマンドラインに慣れる必要がある
-* Dockerの知識が必要
-* (推測)ローカルでは気にならないが本番を想定した場合、アクセスが集中した際などのレスポンスは落ちるのではないかと思われる。
+* Docker,Docker Composeの知識が必要
 # Dockerで書籍『PythonによるAI・機械学習・深層学習アプリの作り方』で使える環境構築をしてみる
 ## 書籍のサンプルから環境構築する
 [参考サイト]https://github.com/kujirahand/book-mlearn-gyomu
@@ -88,14 +75,9 @@ jupyter lab --ip=0.0.0.0 --no-browser
 ```
 ### **どこまでできるのか未確認**
 ## 書籍のサンプルにあるDockerファイルを使用する
-### バージョン関係でエラーを吐いている箇所が多すぎるため断念
+### バージョンの依存関係でエラーを吐いている箇所が多すぎるため断念
 ## jupyter lab 用のイメージを使う
 https://kagakucafe.com/2022053118742.html
-### **flaskによるWebサーバを想定していなかった為、6-4が実行できない**
-もしやるなら、
-* https://qiita.com/suzuki_sh/items/6bc15446965df20b6c5a
-* https://qiita.com/prgseek/items/e557a371d7bd1f57b9b1
-などが参考になるかも
 ### rootパスワードが分からない為、sudoコマンドが使えない
 Dockerの外からユーザー指定でLinuxコマンドが使えるコマンドがある
 ```
@@ -150,6 +132,14 @@ pip install h5py
 ```
 pip install ipykernel
 python -m ipykernel install --user --name=test
+```
+### ~~**flaskによるWebサーバを想定していなかった為、6-4が実行できない**~~
+### 6-4用のDockerファイルを作った
+https://github.com/iwahashi-jp/test01/tree/master/docker_python6-4
+```
+docker-compose run --service-ports web
+※ コンテナが起動したら
+/app/mecab-ipadic-neologd/bin/install-mecab-ipadic-neologd -n -p /var/lib/mecab/dic/mecab-ipadic-neologd
 ```
 # 書籍:PythonによるAI･機械学習•深層学習アプリのつくり方で行き詰まった所や誤植、Colaboratoryで行う場合の修正箇所など
 ## ここに記載している内容はサンプルコードでは修正されているケースもある為、書籍よりサンプルコードを見た方が良いと思われる
